@@ -10,13 +10,15 @@ class JPEGWorker extends Worker {
 
   work(req){
     try{
-      var data = jpeg.decode(req.body);
-      req.body = data;
-      req.next();
+      req.body.imageData = jpeg.decode(req.body.imageData);
+      req.body.imageDataFormat = "jpg";
     } catch(err){
-      req.status(err).next();
+      req.status(err);
+    } finally{
+      req.next();
     }
   }
+
 }
 
 module.exports = JPEGWorker;
