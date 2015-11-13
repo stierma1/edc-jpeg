@@ -14,10 +14,7 @@ class JPEGWorker extends Worker {
       inVal = req.body[inputKey];
     }
     try{
-      var outObj = {
-        imageData: jpeg.decode(inVal),
-        imageDataFormat:"jpg"
-      }
+      var outObj = jpeg.decode(inVal);
       if(outputKey){
         req.body[outputKey] = outObj
       } else {
