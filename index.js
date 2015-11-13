@@ -8,10 +8,21 @@ class JPEGWorker extends Worker {
     super("jpeg", parent);
   }
 
-  work(req){
+  work(req, inputKey, outputKey){
+    var inVal = req.body;
+    if(inputKey){
+      inVal = req.body[inputKey];
+    }
     try{
-      req.body.imageData = jpeg.decode(req.body.imageData);
-      req.body.imageDataFormat = "jpg";
+      var outObj = {
+        imageData: jpeg.decode(inVal),
+        imageDataFormat:"jpg"
+      }
+      if(outputKey){
+        req.body[outputKey] = outObj
+      } else {
+        req.body = outObj;
+      }
     } catch(err){
       req.status(err);
     } finally{
